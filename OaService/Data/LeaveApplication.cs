@@ -1,8 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using OaService.Data;
 
-namespace OaService.Models;
+namespace OaService.Data;
 
 public class LeaveApplication
 {

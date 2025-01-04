@@ -1,3 +1,5 @@
+using OaService.Data;
+
 namespace OaService.Models;
 
 public record LeaveApplicationViewModel(

@@ -85,21 +85,4 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.MapCarter();
-
-if (args.Length == 1 && args[0] == "--wait-for-db")
-{
-    try
-    {
-        using var scope = app.Services.CreateScope();
-        using var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-        context.Database.CanConnect();
-        return 0;
-    }
-    catch
-    {
-        return 1;
-    }
-}
-
 app.Run();
-return 0;

@@ -71,6 +71,6 @@ To run the OaWeb application, follow these steps:
 2. Run the following command to start the application:
 
     ```sh
-    npm dev
+    npm run dev
     ```
 3. The application should now be running and accessible at `http://localhost:3000`.
