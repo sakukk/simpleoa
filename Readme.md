@@ -1,76 +1,165 @@
-### Prerequisites
+# OA System
+
+A leave application management system built with .NET 9 and Vue 3.
+
+## Prerequisites
 
 Before you begin, ensure you have met the following requirements:
 
-- You have installed Node.js 18+.
-- You have installed .NET 9.0.
-- You have a SQL Server instance running.
-- Docker is installed
+- Node.js 18+
+- .NET 9.0
+- SQL Server instance or Docker
+- Docker (optional, for containerized SQL Server)
 
-### Setting up MSSQL with Docker
+## Getting Started
 
-To set up MSSQL with Docker using `docker-compose.dev.yml`, follow these steps:
+### 1. Setting up MSSQL with Docker
 
-1. Run the following command to start the MSSQL container:
+Start SQL Server using Docker:
 
-    ```sh
-    docker-compose -f docker-compose.dev.yml up -d
-    ```
+```sh
+docker-compose -f docker-compose.dev.yml up -d
+```
 
-2. Verify that the SQL Server container is running:
+Verify the container is running:
+```sh
+docker ps
+```
 
-    ```sh
-    docker ps
-    ```
+### 2. Setting up the Backend (.NET)
 
-You should see a container named `sqlserver` in the list.
+1. Navigate to the OaService directory:
+```sh
+cd OaService
+```
 
-### Running EF Migrations for OaService
+2. Install dependencies:
+```sh
+dotnet restore
+```
 
-To run Entity Framework (EF) migrations for the OaService project, follow these steps:
+3. Run EF migrations:
+```sh
+dotnet ef database update
+```
 
-1. Open a terminal and navigate to the OaService project directory:
+4. Start the backend service:
+```sh
+dotnet run
+```
 
-    ```sh
-    cd OAApplication/OaService
-    ```
+The backend will be available at `http://localhost:5237`.
 
-2. Add a new migration by running the following command:
+### 3. Setting up the Frontend (Vue)
 
-    ```sh
-    dotnet ef migrations add <MigrationName>
-    ```
+1. Navigate to the OaClient directory:
+```sh
+cd OaClient
+```
 
-    Replace `<MigrationName>` with a descriptive name for your migration.
+2. Install dependencies:
+```sh
+npm install
+```
 
-3. Apply the migration to the database:
+3. Start the development server:
+```sh
+npm run dev
+```
 
-    ```sh
-    dotnet ef database update
-    ```
+The frontend will be available at `http://localhost:3000`.
 
-4. Verify that the migration has been applied successfully by checking the database.
+## Default Login Credentials
 
-These steps will ensure that your database schema is up to date with the latest changes in your EF model.
+The system is seeded with two default users:
 
+### Manager Account
+- Email: manager@example.com
+- Password: Manager123!
+- Role: Manager
 
-### Running the OaService Application
-To run the OaService application, follow these steps:
-1. Open a terminal or command prompt in the project directory.
-2. Run the following command to start the application:
+### Staff Account
+- Email: staff@example.com
+- Password: Staff123!
+- Role: Staff
 
-    ```sh
-    dotnet run
-    ```
+## Features
 
-3. The application should now be running and accessible at `http://localhost:5237`.
+- JWT Authentication
+- Role-based authorization
+- Leave application management
+- Manager approval workflow
+- Real-time status updates
 
-### Running the OaWeb Application
-To run the OaWeb application, follow these steps:
-1. Open a terminal or command prompt in the project directory.
-2. Run the following command to start the application:
+## Development Workflow
 
-    ```sh
-    npm run dev
-    ```
-3. The application should now be running and accessible at `http://localhost:3000`.
+1. Start SQL Server (if using Docker):
+```sh
+docker-compose -f docker-compose.dev.yml up -d
+```
+
+2. Start the backend (.NET):
+```sh
+cd OaService
+dotnet run
+```
+
+3. Start the frontend (Vue):
+```sh
+cd OaClient
+npm run dev
+```
+
+## Project Structure
+
+```
+├── OaService/          # Backend .NET application
+│   ├── Data/          # Database context and models
+│   ├── Models/        # DTOs and view models
+│   ├── Endpoints/     # API endpoints
+│   └── Validators/    # Request validators
+│
+└── OaClient/          # Frontend Vue application
+    ├── src/
+    │   ├── views/     # Vue components
+    │   ├── stores/    # Pinia stores
+    │   └── types/     # TypeScript types
+    └── public/        # Static assets
+```
+
+## API Endpoints
+
+- POST /api/auth/login - Authentication
+- GET /api/user/info - Get current user info
+- GET /api/staff/leave-applications - Get staff applications
+- POST /api/staff/leave-applications - Create leave application
+- GET /api/manager/leave-applications - Get manager applications
+- PUT /api/manager/leave-applications/{id} - Update application status
+
+## Environment Variables
+
+### Backend (.NET)
+Configuration in appsettings.json:
+- Database connection string
+- JWT settings
+- CORS settings
+
+### Frontend (Vue)
+Configuration in .env files:
+- VITE_API_URL - Backend API URL
+
+## Troubleshooting
+
+1. Database Connection Issues:
+   - Verify SQL Server is running
+   - Check connection string in appsettings.json
+   - Ensure migrations are up to date
+
+2. Authentication Issues:
+   - Clear browser localStorage
+   - Verify JWT token configuration
+   - Check user credentials
+
+3. CORS Issues:
+   - Verify CORS policy in Program.cs
+   - Check API URL in frontend configuration
