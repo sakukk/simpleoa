@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using Carter;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using OaService.Data;
 using OaService.Models;
@@ -45,8 +46,15 @@ public class StaffModule : ICarterModule
         app.MapPost("api/staff/leave-applications", async (
             HttpContext httpContext,
             ApplicationDbContext dbContext,
-            CreateLeaveRequest request) =>
+            CreateLeaveRequest request,
+            IValidator<CreateLeaveRequest> validator) =>
         {
+            var validationResult = await validator.ValidateAsync(request);
+            if (!validationResult.IsValid)
+            {
+                return Results.BadRequest(validationResult.Errors);
+            }
+
             var userId = httpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(userId) || !Guid.TryParse(userId, out var applicantId))
             {

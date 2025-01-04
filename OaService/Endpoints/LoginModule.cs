@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using System.Text;
 using Carter;
+using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using OaService.Data;
@@ -17,8 +18,15 @@ public class LoginModule : ICarterModule
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IConfiguration configuration,
-            LoginRequest request) =>
+            LoginRequest request,
+            IValidator<LoginRequest> validator) =>
         {
+            var validationResult = await validator.ValidateAsync(request);
+            if (!validationResult.IsValid)
+            {
+                return Results.BadRequest(validationResult.Errors);
+            }
+
             var user = await userManager.FindByEmailAsync(request.Email);
             if (user == null || !user.IsActive)
                 return Results.Unauthorized();

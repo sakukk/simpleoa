@@ -5,6 +5,8 @@ using System.Text;
 using Microsoft.AspNetCore.Identity;
 using OaService.Data;
 using Carter;
+using FluentValidation;
+using OaService.Models.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -57,6 +59,8 @@ builder.Services.AddCors(options =>
             .AllowAnyHeader()
             .AllowCredentials());
 });
+
+builder.Services.AddValidatorsFromAssemblyContaining<CreateLeaveRequestValidator>();
 
 var app = builder.Build();
 
