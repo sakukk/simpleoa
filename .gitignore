@@ -1,0 +1,30 @@
+/OaClient/node_modules/
+/OaClient/dist/
+/OaClient/.angular/
+/OaClient/npm-debug.log
+/OaClient/.env
+/OaClient/*.js.map
+
+# .NET (OaService)
+/OaService/bin/
+/OaService/obj/
+/OaService/*.user
+/OaService/Properties/launchSettings.json
+*.suo
+*.user
+_ReSharper.*
+*.sdf
+*.dbmdl
+*.jfm
+/OaService/appsettings.Development.json
+
+# IDE
+.vs/
+.vscode/
+*.swp
+*.swo
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
