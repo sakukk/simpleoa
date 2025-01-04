@@ -32,7 +32,7 @@ To run Entity Framework (EF) migrations for the OaService project, follow these 
 1. Open a terminal and navigate to the OaService project directory:
 
     ```sh
-    cd /e:/projects/OAApplication/OaService
+    cd OAApplication/OaService
     ```
 
 2. Add a new migration by running the following command:
